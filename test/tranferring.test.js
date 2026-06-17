@@ -1,11 +1,12 @@
 request = require('supertest');
 const { expect } = require('chai');
+require('dotenv').config();
 
 describe('Transfer', () => {
     describe('POST /transferencias', () => {
         it('Must return a 201 status code if the transferring value is equal or more than 10', async() => {
             
-            const loginResponse = await request('http://localhost:3000')
+            const loginResponse = await request(process.env.BASE_URL)
                 .post('/login')
                 .set('Content-Type', 'application/json')
                 .send({
@@ -15,7 +16,7 @@ describe('Transfer', () => {
 
             const token = loginResponse.body.token; 
 
-            const response = await request('http://localhost:3000')
+            const response = await request(process.env.BASE_URL)
                 .post('/transferencias')
                 .set('Content-Type', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
@@ -30,7 +31,7 @@ describe('Transfer', () => {
     
         })
         it('Must return a 422 status code if the transferring value is less than or equal to 10', async() => {
-            const loginResponse = await request('http://localhost:3000')
+            const loginResponse = await request(process.env.BASE_URL)
                 .post('/login')
                 .set('Content-Type', 'application/json')
                 .send({
@@ -40,7 +41,7 @@ describe('Transfer', () => {
 
             const token = loginResponse.body.token; 
 
-            const response = await request('http://localhost:3000')
+            const response = await request(process.env.BASE_URL)
                 .post('/transferencias')
                 .set('Content-Type', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
